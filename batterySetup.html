@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Battery List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 800px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 15px 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    label {
+      text-align: right;
+      padding-top: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input {
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      grid-column: 2 / 3;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      justify-self: start;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #errorMessage {
+      margin-top: 15px;
+      color: red;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+  <script src="./js/client.js"></script>
+</head>
+<body>
+<h2>Add Battery Type</h2>
+
+<form action="/addBatteryType" method="POST">
+  <label for="image">Image URL</label>
+  <input type="text" id="image" name="image" required>
+
+  <label for="brand">Brand</label>
+  <input type="text" id="brand" name="brand" required>
+
+  <label for="ampere">Ah</label>
+  <input type="number" id="ampere" name="ampere" required>
+
+  <label for="amp">A</label>
+  <input type="number" id="amp" name="amp" required>
+
+  <label for="length">Length (mm)</label>
+  <input type="number" id="length" name="length" required>
+
+  <label for="width">Width (mm)</label>
+  <input type="number" id="width" name="width" required>
+
+  <label for="height">Height (mm)</label>
+  <input type="number" id="height" name="height" required>
+
+  <label for="available">Available</label>
+  <input type="number" id="available" name="available" required>
+
+  <label for="price">Price</label>
+  <input type="number" id="price" name="price" required>
+
+  <button type="submit">Add Battery Type</button>
+</form>
+
+<div id="errorMessage"></div>
+</body>
+</html>

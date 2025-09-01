@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="/js/client.js"></script>
+</head>
+<body>
+<h2> Wyniki wyszukiwania</h2>
+<div id="results"></div>
+
+<script>
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        marka: params.get('marka') || '',
+        ah: params.get('ah') || '',
+        lang: params.get('lang') || 'en'
+      };
+    }
+
+    const translations = {
+     pl: {
+     title: "Wyniki wyszukiwania",
+     noResults: "Brak wyników.",
+     tableHeaders: ["Marka", "Ah", "A", "Rozmiar", "Dostępne", "Cena", "Kup"],
+     buyButton: "Kup"
+     },
+     uk: {
+     title: "Результати пошуку",
+     noResults: "Немає результатів.",
+     tableHeaders: ["Марка", "Ah", "A", "Розмір", "Доступно", "Ціна", "Купити"],
+     buyButton: "Купити"
+     },
+     en: {
+     title: "Search Results",
+     noResults: "No results.",
+     tableHeaders: ["Brand", "Ah", "A", "Size", "Available", "Price", "Buy"],
+     buyButton: "Buy"
+     }
+     };
+
+   function applyLanguage(lang) {
+    document.querySelector("h2").textContent = translations[lang].title;
+   }
+
+    async function displaySearchResults() {
+      const { marka, ah, lang } = getQueryParams();
+      applyLanguage(lang);
+      if (!marka) {
+        document.getElementById("results").innerHTML = "Podaj markę baterii.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/getBatteryList?marka=${encodeURIComponent(marka)}`);
+        let batteries = await response.json();
+
+        // фильтрация по Ah
+        if (ah) {
+          batteries = batteries.filter(b => b.amper == ah);
+        }
+        if (!batteries.length) {
+          document.getElementById("results").textContent = translations[lang].noResults;
+          return;
+        }
+
+        displayResults(batteries, lang); // ⬅ используем функцию из client.js
+      } catch (err) {
+        console.error(err);
+        document.getElementById("results").innerHTML = "Błąd połączenia z serwerem.";
+      }
+    }
+    displaySearchResults();
+</script>
+</body>
+</html>
+
