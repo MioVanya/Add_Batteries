@@ -28,6 +28,7 @@ getBatteryList = function (marka) {
     let url = URL_GET_BATTERY_LIST + "?marka=" + marka;
     console.log("getBatteryList: " + url);
     fetch(url).then(function (response) {
+        if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(function (data) {
@@ -35,6 +36,7 @@ getBatteryList = function (marka) {
         })
         .catch(function (err) {
             console.log('Fetch Error :-S', err);
+            document.getElementById('errorMessage').innerHTML = "Error";
         });
 }
 
