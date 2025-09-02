@@ -11,9 +11,31 @@ app.use('/js', express.static(__dirname + '/js'));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let batteries = require("./js/newBatteries.js");
-
 const http = require("http");
+
+const mariadb = require('mariadb');
+
+// Create a connection pool (recommended)
+const pool = mariadb.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASS || '251286',
+    database: process.env.DB_NAME || 'batterydb',
+    port: process.env.DB_PORT || 3306,
+    connectionLimit: 5
+});
+
+pool.getConnection()
+    .then(conn => {
+        console.log("Bingo!");
+        conn.release();
+    })
+    .catch(err => {
+        console.error("Error:", err);
+    });
+
+let batteries = require("./js/newBatteries.js");
+batteries.setPool(pool);
 
 let server = http.createServer({}, app).listen(PORT, () => {
     console.log('Listening on ' + server.address().port);
