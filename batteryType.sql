@@ -8,4 +8,5 @@ CREATE TABLE battery (
     height INT,
     amper INT,
     amp INT
+    image VARCHAR(255)
 );
