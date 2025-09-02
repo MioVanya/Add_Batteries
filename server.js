@@ -50,7 +50,8 @@ app.get('/getBatteryList', async (req, res) => {
     const marka = req.query.marka;
     console.log("server:getBatteryList: Marka=" + marka);
     var batteryList = await batteries.getBatteryList(marka);
-    res.send(batteryList);
+     if (!batteryList) batteryList = [];
+    res.json(batteryList);
 });
 
 app.get('/BuyBattery', function (req, res) {
