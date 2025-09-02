@@ -2,26 +2,11 @@ const OK = 0;
 const ERROR_NO_SUCH_BATTERY = -1;
 const ERROR_OUT_OF_STOCK = -2;
 
-const mariadb = require('mariadb');
+let pool;
 
-// Create a connection pool (recommended)
-const pool = mariadb.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || '251286',
-    database: process.env.DB_NAME || 'batterydb',
-    port: process.env.DB_PORT || 3306,
-    connectionLimit: 5
-});
-
-pool.getConnection()
-    .then(conn => {
-        console.log("Bingo!");
-        conn.release();
-    })
-    .catch(err => {
-        console.error("Error:", err);
-    });
+exports.setPool = function(p) {
+    pool = p;
+};
 
 exports.initialise = function () {
 
