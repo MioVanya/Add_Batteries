@@ -54,11 +54,16 @@ app.get('/getBatteryList', async (req, res) => {
     res.json(batteryList);
 });
 
-app.get('/BuyBattery', function (req, res) {
+app.get('/BuyBattery', async function (req, res) {
     const batteryID = req.query.id;
     console.log("server:getBatteryList: ID=" + batteryID);
-    var errorCode = batteries.buyBattery(batteryID);
-    res.send(errorCode);
+    try {
+        var errorCode = await batteries.buyBattery(batteryID);
+        res.json(errorCode);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error" });
+    }
 });
 
 app.get('/addBatteryType', function (req, res) {
