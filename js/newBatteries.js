@@ -14,6 +14,15 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 });
 
+pool.getConnection()
+    .then(conn => {
+        console.log("Bingo!");
+        conn.release();
+    })
+    .catch(err => {
+        console.error("Error:", err);
+    });
+
 exports.initialise = function () {
 
 }
